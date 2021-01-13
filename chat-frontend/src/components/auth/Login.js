@@ -1,30 +1,20 @@
 import React, {useState} from 'react'
-import loginImage from '../../assets/images/login.svg'
-//import axios from 'axios'
-import AuthService from '../../services/authService'
-
 import { Link } from 'react-router-dom'
-
+import loginImage from '../../assets/images/login.svg'
+import {useDispatch} from 'react-redux'
+import {login} from '../../store/actions/auth'
 import './Auth.scss'
 
-const Login = () => {
+const Login = ({history}) => {
+
+    const dispatch = useDispatch()
 
     const [email, setEmail] = useState('john.doe@gmail.com')
     const [password, setPassword] = useState('secret1')
 
     const submitForm = (e) => {
         e.preventDefault()
-
-        AuthService.login({email, password}).then(res => console.log(res))
-
-        // axios.post('http://127.0.0.1:3000/login', {email, password})
-        // .then(res => {
-        //     console.log('res', res);
-        // })
-        // .catch(err => {
-        //     console.log('err', err);
-        // })
-        console.log({email, password});
+        dispatch(login({email, password}, history))
     }
 
     return (
@@ -40,7 +30,12 @@ const Login = () => {
 
                         <form onSubmit={submitForm}>
                             <div className='input-field mb-1'>
-                                <input onChange={e=> setEmail(e.target.value)} value={email} required='required' type='text' placeholder='Email'/>
+                                <input 
+                                onChange={e=> setEmail(e.target.value)} 
+                                value={email} 
+                                required='required' 
+                                type='text' 
+                                placeholder='Email'/>
                             </div>
                             <div className='input-field mb-2'>
                                 <input onChange={e=> setPassword(e.target.value)} value ={password} required='required' type='password' placeholder='Password'/>

@@ -16,6 +16,8 @@ app.use(bodyParser.json())
 app.use(cors())
 app.use(router)
 
+app.use(express.static(__dirname + '/public'))
+
 const PORT = config.appPort
 
 app.listen(PORT, () => {

@@ -25,6 +25,7 @@ exports.login = async (req,res) => {
 
         //generate auth token
         const userWithToken = generateToken(user.get({raw:true}))
+        userWithToken.avatar = user.avatar;
 
         return res.send(userWithToken)
     } catch(e){
