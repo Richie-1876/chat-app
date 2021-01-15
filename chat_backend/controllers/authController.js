@@ -25,7 +25,7 @@ exports.login = async (req,res) => {
 
         //generate auth token
         const userWithToken = generateToken(user.get({raw:true}))
-        userWithToken.avatar = user.avatar;
+        userWithToken.user.avatar = user.avatar;
 
         return res.send(userWithToken)
     } catch(e){
@@ -66,5 +66,5 @@ const generateToken = (user) => {
 
     const token = jwt.sign(user, config.appKey, {expiresIn: 86400})
 
-    return {...user, ...{token}}
+    return {...{user}, ...{token}}
 }
