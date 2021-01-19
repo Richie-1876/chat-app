@@ -7,6 +7,7 @@ import './MessageInput.scss'
 const MessageInput = ({chat}) => {
 
     const user = useSelector(state => state.authReducer.user)
+    const socket = useSelector(state => state.chatReducer.socket)
 
     const [message, setMessage] = useState('')
     const [image, setImage] = useState('')
@@ -20,7 +21,7 @@ const MessageInput = ({chat}) => {
 
 
     const handleKeyDown = (e, imageUpload) => {
-       if(e.key === 'enter') sendMessage(imageUpload)
+       if(e.key === 'Enter') sendMessage(imageUpload)
 
     }
 
@@ -29,7 +30,7 @@ const MessageInput = ({chat}) => {
 
         const msg = {
             type: imageUpload ? 'image' : 'text', 
-            fromUserId: user.id,
+            fromUser: user,
             toUserId: chat.Users.map(user => user.id),
             chatId: chat.id,
             message: imageUpload ? image : message
@@ -38,6 +39,7 @@ const MessageInput = ({chat}) => {
         setImage('')
 
         //send message with socket.
+        socket.emit('message', msg)
     }
 
 
@@ -46,6 +48,7 @@ const MessageInput = ({chat}) => {
         <div id='input-container'>
             <div id='message-input'>
                 <input
+                
                 type='text'
                 placeholder='Message...'
                 onChange={e => handleMessage(e)}
