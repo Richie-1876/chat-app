@@ -47,7 +47,7 @@ const MessageInput = ({chat}) => {
             <div id='message-input'>
                 <input
                 type='text'
-                placeHolder='Message...'
+                placeholder='Message...'
                 onChange={e => handleMessage(e)}
                 onKeyDown={e => handleKeyDown(e)}
 
