@@ -91,6 +91,7 @@ const SocketServer = (server) => {
                 message.User = message.fromUser
                 message.fromUserId = message.fromUser.id
                 message.id = savedMessage.id
+                message.message = savedMessage.message
                 delete message.fromUser
 
                 sockets.forEach(socket => {
@@ -101,6 +102,17 @@ const SocketServer = (server) => {
             }
 
         })
+
+        socket.on('typing', (message) => {
+            message.toUserId.forEach(id => {
+                if(users.has(id)) {
+                    users.get(id).sockets.forEach(socket => {
+                        io.to(socket).emit('typing', message)
+                    })
+                }
+            })
+        })
+
         socket.on('disconnect', async () => {
       
             if(userSockets.has(socket.id)) {
