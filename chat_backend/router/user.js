@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {update} = require('../controllers/userController')
+const {update, search} = require('../controllers/userController')
 
 const {validate} = require('../validators')
 
@@ -11,6 +11,7 @@ const {userFile} = require('../middleware/fileUpload')
 
 ///////////////////////////////  Routes ////////////////////////////////
 router.post('/update',[auth, userFile, updateRules, validate], update)
+router.get('/search-users', auth, search )
 
 
 module.exports = router
